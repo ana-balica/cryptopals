@@ -32,28 +32,29 @@ LETTER_FREQUENCY = {
 }
 
 
-def calculate_score(string):
-    return sum([LETTER_FREQUENCY[letter] for letter in string])
+def calculate_score(message):
+    return sum([LETTER_FREQUENCY.get(char.lower(), 0) for char in message])
 
 
-def xor(left, right):
-    # Not sure if it works
-    xor_result = bytearray(b'')
-    for byte in left:
-        result = byte ^ right
-        xor_result.append(bytes([result]))
-    return xor_result
+def xor(left, key):
+    return ''.join(chr(byte ^ key) for byte in left)
 
 
-def decipher_single_byte_xor(hex_string):
+def decipher_single_byte_xor(hex_str):
     """
     Challenge 1.3: https://cryptopals.com/sets/1/challenges/3
     """
-    in_bytes = unhexlify(hex_string)
-    # can update to 256 if going for extended ASCII codes
-    for key in xrange(128):
-        pass
+    bytes_str = unhexlify(hex_str)
+    results = []
+    for key in range(256):
+        message = xor(bytes_str, key)
+        score = calculate_score(message)
+        results.append((key, score, message))
+
+    s = sorted(results, key=lambda x: x[1], reverse=True)
+    print(s[:5])
 
 
-# STOPPED:
-# XOR all 34 bytes with 1 byte each
+if __name__ == '__main__':
+    hex_str = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
+    decipher_single_byte_xor(hex_str)
