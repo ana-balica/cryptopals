@@ -33,15 +33,31 @@ LETTER_FREQUENCY = {
 
 
 def calculate_score(message):
+    """
+    Compure score for a string based on the letter frequency.
+    Ignores non alpha characters.
+
+    >>> calculate_score('/Foz! ')
+    9.809
+    """
     return sum([LETTER_FREQUENCY.get(char.lower(), 0) for char in message])
 
 
-def xor(left, key):
-    return ''.join(chr(byte ^ key) for byte in left)
+def xor(bytes_str, key):
+    """
+    XOR each byte with the key and return the joined xorred string.
+
+    >>> xor(b'x\x1d', 23)
+    'o'
+    """
+    return ''.join(chr(byte ^ key) for byte in bytes_str).strip()
 
 
 def decipher_single_byte_xor(hex_str):
     """
+    Try to guess the key and decipher the hex_str that was
+    XORed with one single byte.
+
     Challenge 1.3: https://cryptopals.com/sets/1/challenges/3
     """
     bytes_str = unhexlify(hex_str)
@@ -51,10 +67,15 @@ def decipher_single_byte_xor(hex_str):
         score = calculate_score(message)
         results.append((key, score, message))
 
-    s = sorted(results, key=lambda x: x[1], reverse=True)
-    print(s[:5])
+    # Sort by the top score
+    return sorted(results, key=lambda x: x[1], reverse=True)
 
 
 if __name__ == '__main__':
     hex_str = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
-    decipher_single_byte_xor(hex_str)
+    results = decipher_single_byte_xor(hex_str)
+    print("Top five results")
+    print(results[:5])
+
+    import doctest
+    doctest.testmod()
