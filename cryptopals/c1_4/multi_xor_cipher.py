@@ -15,6 +15,8 @@ def find_encrypted_message(encoded_messages):
     Find and decrypt the message that was encrypted
     by a single char XOR. Returns all the results
     sorted by a letter frequency score.
+
+    Challenge 1.4: https://cryptopals.com/sets/1/challenges/4
     """
     top_results = []
     for hex_str in encoded_messages:
