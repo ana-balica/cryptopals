@@ -4,7 +4,7 @@ from binascii import unhexlify
 # Data identical as from Wikipedia: https://en.wikipedia.org/wiki/Letter_frequency
 # Including a raw frequency for SPACE based on this: http://www.data-compression.com/english.html
 # even though it's relative position is more important, but this is a very simple model.
-LETTER_FREQUENCY = {
+CHAR_FREQUENCY = {
     'a': 8.167,
     'b': 1.492,
     'c': 2.782,
@@ -43,7 +43,7 @@ def calculate_score(message):
     >>> calculate_score('/Foz!')
     9.809
     """
-    return sum([LETTER_FREQUENCY.get(char.lower(), 0) for char in message])
+    return sum([CHAR_FREQUENCY.get(char.lower(), 0) for char in message])
 
 
 def xor(bytes_str, key):
