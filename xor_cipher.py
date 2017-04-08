@@ -2,6 +2,8 @@ from binascii import unhexlify
 
 # Taken from https://gist.github.com/evilpacket/5973230#file-letter_freq-json-L4
 # Data identical as from Wikipedia: https://en.wikipedia.org/wiki/Letter_frequency
+# Including a raw frequency for SPACE based on this: http://www.data-compression.com/english.html
+# even though it's relative position is more important, but this is a very simple model.
 LETTER_FREQUENCY = {
     'a': 8.167,
     'b': 1.492,
@@ -28,7 +30,8 @@ LETTER_FREQUENCY = {
     'w': 2.360,
     'x': 0.150,
     'y': 1.974,
-    'z': 0.074
+    'z': 0.074,
+    ' ': 13.0,
 }
 
 
@@ -37,7 +40,7 @@ def calculate_score(message):
     Compure score for a string based on the letter frequency.
     Ignores non alpha characters.
 
-    >>> calculate_score('/Foz! ')
+    >>> calculate_score('/Foz!')
     9.809
     """
     return sum([LETTER_FREQUENCY.get(char.lower(), 0) for char in message])
@@ -74,8 +77,9 @@ def decipher_single_byte_xor(hex_str):
 if __name__ == '__main__':
     hex_str = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
     results = decipher_single_byte_xor(hex_str)
-    print("Top five results")
-    print(results[:5])
+    print("Top result")
+    print("Key: {0}".format(chr(results[0][0])))
+    print("Message: {0}".format(results[0][2]))
 
     import doctest
     doctest.testmod()
