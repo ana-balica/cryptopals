@@ -1,3 +1,12 @@
+from binascii import a2b_base64
+
+
+def get_encoded_message():
+    with open('cryptopals/c1_6/6.txt', 'r') as f:
+        message = f.read().strip()
+        return a2b_base64(message)
+
+
 def get_hamming_distance(left, right):
     """
     Calculate hamming distance - the number of different bits.
@@ -30,3 +39,4 @@ def to_bits(i):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
+    message = get_encoded_message()
