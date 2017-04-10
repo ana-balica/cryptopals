@@ -36,7 +36,20 @@ def to_bits(i):
     return "{0:08b}".format(i)
 
 
+def guess_probable_keysizes(message, top=3):
+    # KEYSIZE between 2 and 40 is an educated/suggested guess
+    distances = []
+    for keysize in range(2, 41):
+        left = message[:keysize]
+        right = message[keysize:keysize * 2]
+        distance = get_hamming_distance(left, right)
+        distances.append((keysize, distance / keysize))
+    return sorted(distances, key=lambda x: x[1])[:top]
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
     message = get_encoded_message()
+    keysizes = guess_probable_keysizes(message)
+    print(keysizes)
