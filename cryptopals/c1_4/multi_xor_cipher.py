@@ -20,7 +20,6 @@ def find_encrypted_message(encoded_messages):
     """
     top_results = []
     for hex_str in encoded_messages:
-        hex_str = hex_str
         results = decipher_single_byte_xor(hex_str)
         top_results.append(results[0])
 
