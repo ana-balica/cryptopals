@@ -47,6 +47,47 @@ def guess_probable_keysizes(message, top=3):
     return sorted(distances, key=lambda x: x[1])[:top]
 
 
+def chunks(block, size):
+    """
+    Split the iterable into chunks of size.
+
+    :param block: any iterable
+    :param size: int value bigger or equal than 1
+    :returns: a generator with chunked blocks
+
+    >>> list(chunks('1234567', 1))
+    ['1', '2', '3', '4', '5', '6', '7']
+
+    >>> list(chunks('1234567', 2))
+    ['12', '34', '56', '7']
+    """
+    for i in range(0, len(block), size):
+        yield block[i:i + size]
+
+
+def transpose(chunks):
+    """
+    Create chunks where each chunk contains the n-th
+    element of the original chunks.
+
+    :param: iterable of iterables
+    :returns: list of transposed iterables
+
+    >>> transpose(['123', '456'])
+    ['14', '25', '36']
+
+    >>> transpose(['12', '34', '5'])
+    ['135', '24']
+    """
+    blocks = [''] * len(chunks[0])
+    for chunk in chunks:
+        for i, byte in enumerate(chunk):
+            block = blocks[i]
+            block = '{0}{1}'.format(block, byte)
+            blocks[i] = block
+    return blocks
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
