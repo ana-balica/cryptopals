@@ -79,8 +79,11 @@ def transpose(chunks):
     >>> transpose(['12', '34', '5'])
     ['135', '24']
     """
-    blocks = [''] * len(chunks[0])
+    blocks = []
     for chunk in chunks:
+        if not blocks:
+            blocks = [''] * len(chunk)
+
         for i, byte in enumerate(chunk):
             block = blocks[i]
             block = '{0}{1}'.format(block, byte)
