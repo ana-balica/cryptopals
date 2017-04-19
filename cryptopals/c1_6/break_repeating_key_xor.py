@@ -47,7 +47,7 @@ def guess_probable_keysizes(message, top=3):
     return sorted(distances, key=lambda x: x[1])[:top]
 
 
-def chunks(block, size):
+def get_chunks(block, size):
     """
     Split the iterable into chunks of size.
 
@@ -55,10 +55,10 @@ def chunks(block, size):
     :param size: int value bigger or equal than 1
     :returns: a generator with chunked blocks
 
-    >>> list(chunks('1234567', 1))
+    >>> list(get_chunks('1234567', 1))
     ['1', '2', '3', '4', '5', '6', '7']
 
-    >>> list(chunks('1234567', 2))
+    >>> list(get_chunks('1234567', 2))
     ['12', '34', '56', '7']
     """
     for i in range(0, len(block), size):
