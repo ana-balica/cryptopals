@@ -70,13 +70,13 @@ def transpose(chunks):
     Create chunks where each chunk contains the n-th
     element of the original chunks.
 
-    :param: iterable of iterables
+    :param: iterable of bytes
     :returns: list of transposed iterables
 
-    >>> transpose(['123', '456'])
+    >>> transpose([b'123', b'456'])
     ['14', '25', '36']
 
-    >>> transpose(['12', '34', '5'])
+    >>> transpose([b'12', b'34', b'5'])
     ['135', '24']
     """
     blocks = []
@@ -86,7 +86,7 @@ def transpose(chunks):
 
         for i, byte in enumerate(chunk):
             block = blocks[i]
-            block = '{0}{1}'.format(block, byte)
+            block = '{0}{1}'.format(block, chr(byte))
             blocks[i] = block
     return blocks
 
