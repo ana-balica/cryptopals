@@ -1,4 +1,4 @@
-from binascii import a2b_base64
+from binascii import a2b_base64, hexlify
 from cryptopals.c1_3.xor_cipher import decipher_single_byte_xor
 
 
