@@ -103,7 +103,16 @@ def transpose(chunks):
     return blocks
 
 
-def find_probable_keys(message):
+def break_vigenere_cipher(message):
+    """
+    Try to break repeating key XOR (also known as Vigenere),
+    by guess probably keysizes, taking blocks of bytes
+    of keysize, transporing them to solve them as single
+    byte XORs.
+
+    :param message: encrypted cipher in binary
+    :returns: a list of possible keys that were used
+    """
     keysizes = guess_probable_keysizes(message, top=10)
     probable_keys = []
     for keysize, _ in keysizes:
@@ -124,5 +133,5 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
     message = get_encoded_message()
-    keys = find_probable_keys(message)
+    keys = break_vigenere_cipher(message)
     print(keys)
