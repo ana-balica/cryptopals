@@ -37,6 +37,13 @@ def to_bits(i):
 
 
 def guess_probable_keysizes(message, top=3):
+    """
+    Guess most probably keysizes by computing and comparing
+    hamming distances.
+
+    :param message: encoded message in binary
+    :param top: how many top results to return
+    """
     # KEYSIZE between 2 and 40 is an educated/suggested guess
     distances = []
     for keysize in range(2, 41):
