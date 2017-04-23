@@ -24,17 +24,10 @@ def get_hamming_distance(left, right):
     if isinstance(right, str):
         right = right.encode('utf-8')
 
-    hd = 0
-    for left_byte, right_byte in zip(left, right):
-        left_bits = to_bits(left_byte)
-        right_bits = to_bits(right_byte)
-        hd += sum(x != y for x, y in zip(left_bits, right_bits))
-    return hd
-
-
-def to_bits(i):
-    """Returns 8bit representation with padding if necessary."""
-    return "{0:08b}".format(i)
+    left_hex = hexlify(left)
+    right_hex = hexlify(right)
+    xor_result = int(left_hex, 16) ^ int(right_hex, 16)
+    return bin(xor_result).count('1')
 
 
 def guess_probable_keysizes(message, top=3):
