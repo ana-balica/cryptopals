@@ -42,11 +42,20 @@ def guess_probable_keysizes(message, top=3):
     distances = []
     for keysize in range(2, 41):
         local_distances = []
-        for i in [0, keysize * 2]:
-            left = message[i:i + keysize]
-            right = message[keysize + i:(keysize + i) * 2]
-            distance = get_hamming_distance(left, right)
-            local_distances.append(distance)
+        part1 = message[0:keysize]
+        part2 = message[keysize:keysize * 2]
+        part3 = message[keysize * 2:keysize * 3]
+        part4 = message[keysize * 3:keysize * 4]
+
+        local_distances.extend([
+            get_hamming_distance(part1, part2),
+            get_hamming_distance(part1, part3),
+            get_hamming_distance(part1, part4),
+            get_hamming_distance(part2, part3),
+            get_hamming_distance(part2, part4),
+            get_hamming_distance(part3, part4),
+        ])
+
         distance = sum(local_distances) / len(local_distances)
         distances.append((keysize, distance / keysize))
     return sorted(distances, key=lambda x: x[1])[:top]
