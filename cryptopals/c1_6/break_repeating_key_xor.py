@@ -115,7 +115,8 @@ def break_vigenere_cipher(message):
     :param message: encrypted cipher in binary
     :returns: a list of possible keys that were used
     """
-    keysizes = guess_probable_keysizes(message, top=10)
+    keysizes = guess_probable_keysizes(message, top=3)
+    print("Probably keysizes with weights: {0}".format(keysizes))
     probable_keys = []
     for keysize, _ in keysizes:
         chunks = get_chunks(message, keysize)
@@ -136,4 +137,4 @@ if __name__ == '__main__':
     doctest.testmod()
     message = get_encoded_message()
     keys = break_vigenere_cipher(message)
-    print(keys)
+    print("Probable keys: {0}".format(keys))
