@@ -40,9 +40,13 @@ def guess_probable_keysizes(message, top=3):
     # KEYSIZE between 2 and 40 is an educated/suggested guess
     distances = []
     for keysize in range(2, 41):
-        left = message[:keysize]
-        right = message[keysize:keysize * 2]
-        distance = get_hamming_distance(left, right)
+        local_distances = []
+        for i in [0, keysize * 2]:
+            left = message[i:i + keysize]
+            right = message[keysize + i:(keysize + i) * 2]
+            distance = get_hamming_distance(left, right)
+            local_distances.append(distance)
+        distance = sum(local_distances) / len(local_distances)
         distances.append((keysize, distance / keysize))
     return sorted(distances, key=lambda x: x[1])[:top]
 
