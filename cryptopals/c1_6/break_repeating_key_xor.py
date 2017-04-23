@@ -1,4 +1,5 @@
 from binascii import a2b_base64
+from cryptopals.c1_3.xor_cipher import decipher_single_byte_xor
 
 
 def get_encoded_message():
@@ -102,9 +103,26 @@ def transpose(chunks):
     return blocks
 
 
+def find_probable_keys(message):
+    keysizes = guess_probable_keysizes(message, top=10)
+    probable_keys = []
+    for keysize, _ in keysizes:
+        chunks = get_chunks(message, keysize)
+        blocks = transpose(chunks)
+        key = ''
+        for block in blocks:
+            block_bytes = block.encode('utf-8')
+            block_hex = hexlify(block_bytes)
+            result = decipher_single_byte_xor(block_hex)
+            block_key = chr(result[0][0])
+            key = "{0}{1}".format(key, block_key)
+        probable_keys.append(key)
+    return probable_keys
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
     message = get_encoded_message()
-    keysizes = guess_probable_keysizes(message)
-    print(keysizes)
+    keys = find_probable_keys(message)
+    print(keys)
