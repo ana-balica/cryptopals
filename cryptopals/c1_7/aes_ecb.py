@@ -30,7 +30,7 @@ class AESCipher:
 
 if __name__ == '__main__':
     key = "YELLOW SUBMARINE"
-    data = get_encoded_message('cryptopals/c1_6/6.txt')
+    data = get_encoded_message('cryptopals/c1_7/7.txt')
     aes_cipher = AESCipher(key)
     message = aes_cipher.decrypt(data, mode=AES.MODE_ECB)
     print(message)
